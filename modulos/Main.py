@@ -2,6 +2,7 @@ from Laberinto import Laberinto
 from A import A
 from IDA import IDA
 from GBFS import GBFS
+from B_Profundidad import Profundidad
 
 def main():
     lab=Laberinto()
@@ -34,10 +35,9 @@ def main():
        print("\n")
        print("-------MENU-------")
        print("1. Algoritmo A*")
-
        print("2. Algoritmo IDA*")
        print("3. Algoritmo GBFS")
-       print("4. Algoritmo IDA*")
+       print("4. Algoritmo de búsqueda en profundidad")
        print("5. Algoritmo A*")
        print("6. Algoritmo IDA*")
        print("7. Algoritmo A*")
@@ -61,7 +61,27 @@ def main():
            lab.MuestraLab()
 
        if opc=="4":
+           profundidad=Profundidad(lab)
+           profundidad.moverse()
+           lab.MuestraLab()
+
+       if opc == "5":
            ida=IDA(lab)
+           ida.moverse()
+           lab.MuestraLab()
+
+       if opc == "6":
+           ida = IDA(lab)
+           ida.moverse()
+           lab.MuestraLab()
+
+       if opc == "7":
+           gbfs = GBFS(lab)
+           gbfs.moverse()
+           lab.MuestraLab()
+
+       if opc == "8":
+           ida = IDA(lab)
            ida.moverse()
            lab.MuestraLab()
 
