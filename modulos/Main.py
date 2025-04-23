@@ -30,9 +30,15 @@ def main():
     while True:
        print("\n")
        print("-------MENU-------")
-       print("1. Agente reactivo")
-       print("2. Agente informado")
-       print("3. Salir")
+       print("1. Algoritmo A*")
+       print("2. Algoritmo IDA*")
+       print("3. Algoritmo GBFS")
+       print("4. Algoritmo IDA*")
+       print("5. Algoritmo A*")
+       print("6. Algoritmo IDA*")
+       print("7. Algoritmo A*")
+       print("8. Algoritmo IDA*")
+       print("9. Salir")
        opc=input("Elige una opcion: ")
 
        if opc=="1":
@@ -98,7 +104,7 @@ def main():
             a_informado.moverse()
             lab.MuestraLab()
 
-       if opc=="3":
+       if opc=="9":
             break
 
 if __name__=="__main__":
