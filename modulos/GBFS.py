@@ -76,12 +76,14 @@ class GBFS:
 
         cola=PriorityQueue()
         cola.put((heu, self.posE_x,self.posE_y))
+        self.visitados[self.posE_x][self.posE_y]=1
         iter=0
         while not cola.empty():
             heu,a_x,a_y=cola.get()
 
             if (a_x,a_y)==(self.posS_x,self.posS_y):
                 print ("Se ha encontrado la salida en "+str(iter)+" iteraciones")
+                self.puntos()
                 return
 
             self.visitados[a_x][a_y]=1
@@ -98,15 +100,19 @@ class GBFS:
                 elif self.heuristica=="3":
                     n_heu=self.Personal(i, j, self.posS_x, self.posS_y)
 
-                if self.visitados[i][j]==1:
+                if self.visitados[i][j]==0:
+                    self.visitados[i][j]=1
                     self.padres[i][j]=(a_x,a_y)
                     cola.put((n_heu, i, j))
             iter=iter+1
 
     def puntos(self):
-        x,y=self.posS_x, self.posS_y
-        while self.padres[x][y]is not None:
-            x,y=self.padres[x][y]
+        x, y = self.posS_x, self.posS_y
+        while self.padres[x][y] is not None:
+            x, y = self.padres[x][y]
             if self.lab.tab[x][y] not in ("E", "S"):
-                self.lab.tab[x][y]="."
+                self.lab.tab[x][y] = "."
+            if (x, y) == (self.posE_x, self.posE_y):
+                break
+
 

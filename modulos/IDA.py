@@ -67,7 +67,7 @@ class IDA:
             max=self.Euclidea(self.posE_x, self.posE_y, self.posS_x, self.posS_y)
 
         elif self.heuristica=="3":
-            max=self.Personal(self.posE_x, self.posS_x, self.posS_x, self.posS_y)
+            max=self.Personal(self.posE_x, self.posE_x, self.posS_x, self.posS_y)
 
 
         while True:
@@ -76,6 +76,9 @@ class IDA:
             if resultado=="Salida":
                 print("El agente ha encontrado la salida en ",max)
                 self.puntos()
+                break
+            elif resultado==float("inf"):
+                print("El agente no ha encontrado la salida")
                 break
             else:
                 max=resultado
@@ -105,22 +108,25 @@ class IDA:
 
         for i,j in validos:
             siguientes=(i,j)
-            visitados.append(siguientes)
-            self.padres[i][j] = (x_actual, y_actual)
+            if siguientes not in visitados:
+                visitados.append(siguientes)
+                self.padres[i][j] = (x_actual, y_actual)
 
-            resultado=self.IDA(i, j, g+1, max, self.posS_x, self.posS_y, visitados)
+                resultado=self.IDA(i, j, g+1, max, self.posS_x, self.posS_y, visitados)
 
-            if resultado=="Salida":
-                return "Salida"
-            if resultado<min:
-                min=resultado
+                if resultado=="Salida":
+                    return "Salida"
+                if resultado<min:
+                    min=resultado
 
-            visitados.remove(siguientes)
+                visitados.remove(siguientes)
         return min
 
     def puntos(self):
-        x,y=self.posS_x, self.posS_y
-        while self.padres[x][y]is not None:
-            x,y=self.padres[x][y]
+        x, y = self.posS_x, self.posS_y
+        while self.padres[x][y] is not None:
+            x, y = self.padres[x][y]
             if self.lab.tab[x][y] not in ("E", "S"):
-                self.lab.tab[x][y]="."
+                self.lab.tab[x][y] = "."
+            if (x, y) == (self.posE_x, self.posE_y):
+                break
