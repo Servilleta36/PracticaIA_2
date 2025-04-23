@@ -75,7 +75,7 @@ class IDA:
                 print("El agente ha encontrado la salida en "+max)
                 self.puntos()
                 break
-            else
+            else:
                 print("No hay solución")
                 self.puntos()
                 break
@@ -94,7 +94,7 @@ class IDA:
         elif self.heuristica=="3":
             max=self.Personal(self.posE_x, self.posS_x, self.posS_x, self.posS_y)
 
-        f=g+heu
+        f=g+max
 
         if (x_actual, y_actual)==(posS_x, posS_y):
             return "Salida"
