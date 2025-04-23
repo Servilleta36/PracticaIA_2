@@ -60,6 +60,7 @@ class GBFS:
         return valido
 
     def moverse(self):
+        self.SeleccionaHeuristica()
         heu=0
         f=0
 
@@ -103,8 +104,9 @@ class GBFS:
             iter=iter+1
 
     def puntos(self):
-        for (i,j) in self.padres:
-            if self.lab.tab[i][j]!="E" and self.lab.tab[i][j]!="S":
-                self.lab.tab[i][j]="."
-
+        x,y=self.posS_x, self.posS_y
+        while self.padres[x][y]is not None:
+            x,y=self.padres[x][y]
+            if self.lab.tab[x][y] not in ("E", "S"):
+                self.lab.tab[x][y]="."
 

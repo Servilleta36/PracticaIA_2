@@ -60,6 +60,7 @@ class A:
         return valido
 
     def moverse(self):
+        self.SeleccionaHeuristica()
         g=0
         heu=0
         f=0
@@ -83,9 +84,11 @@ class A:
 
             if (a_x,a_y)==(self.posS_x,self.posS_y):
                 print ("Se ha encontrado la salida en "+str(iter)+" iteraciones")
+                self.puntos()
                 return
 
             confirmados=self.buscarVecino(a_x,a_y)
+            n_heu=0
 
             for i,j in confirmados:
                 n_g=g+1
@@ -108,8 +111,9 @@ class A:
             iter=iter+1
 
     def puntos(self):
-        for (i,j) in self.padres:
-            if self.lab.tab[i][j]!="E" and self.lab.tab[i][j]!="S":
-                self.lab.tab[i][j]="."
-
+        x,y=self.posS_x, self.posS_y
+        while (x,y)!=(self.posE_x, self.posE_y):
+            if self.lab.tab[x][y] not in ("E", "S"):
+                self.lab.tab[x][y]="."
+            x,y=self.padres[x][y]
 

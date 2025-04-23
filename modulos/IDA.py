@@ -57,7 +57,8 @@ class IDA:
         return valido
 
     def moverse(self):
-
+        self.SeleccionaHeuristica()
+        max=0
         g=0
         if self.heuristica=="1":
             max=self.Manhattan(self.posE_x, self.posE_y, self.posS_x, self.posS_y)
@@ -68,33 +69,31 @@ class IDA:
         elif self.heuristica=="3":
             max=self.Personal(self.posE_x, self.posS_x, self.posS_x, self.posS_y)
 
+
         while True:
-            resultado=self.IDA(self.posE_x, self.posE_y, g, max, self.posS_x, self.posS_y, (self.posE_x, self.posE_y))
+            resultado=self.IDA(self.posE_x, self.posE_y, g, max, self.posS_x, self.posS_y, [(self.posE_x, self.posE_y)])
 
             if resultado=="Salida":
-                print("El agente ha encontrado la salida en "+max)
+                print("El agente ha encontrado la salida en ",max)
                 self.puntos()
                 break
             else:
-                print("No hay solución")
-                self.puntos()
-                break
-
-            max=resultado
+                max=resultado
 
 
 
     def IDA(self, x_actual, y_actual, g, max, posS_x, posS_y, visitados):
+        h=0
         if self.heuristica=="1":
-            max=self.Manhattan(self.posE_x, self.posE_y, self.posS_x, self.posS_y)
+            h=self.Manhattan(x_actual, y_actual, self.posS_x, self.posS_y)
 
         elif self.heuristica=="2":
-            max=self.Euclidea(self.posE_x, self.posE_y, self.posS_x, self.posS_y)
+            h=self.Euclidea(x_actual, y_actual, self.posS_x, self.posS_y)
 
         elif self.heuristica=="3":
-            max=self.Personal(self.posE_x, self.posS_x, self.posS_x, self.posS_y)
+            h=self.Personal(x_actual, y_actual, self.posS_x, self.posS_y)
 
-        f=g+max
+        f=g+h
 
         if (x_actual, y_actual)==(posS_x, posS_y):
             return "Salida"
@@ -107,7 +106,7 @@ class IDA:
         for i,j in validos:
             siguientes=(i,j)
             visitados.append(siguientes)
-            self.padres[i][j]=x_actual,y_actual
+            self.padres[i][j] = (x_actual, y_actual)
 
             resultado=self.IDA(i, j, g+1, max, self.posS_x, self.posS_y, visitados)
 
@@ -120,6 +119,8 @@ class IDA:
         return min
 
     def puntos(self):
-        for (i,j) in self.padres:
-            if self.lab.tab[i][j]!="E" and self.lab.tab[i][j]!="S":
-                self.lab.tab[i][j]="."
+        x,y=self.posS_x, self.posS_y
+        while self.padres[x][y]is not None:
+            x,y=self.padres[x][y]
+            if self.lab.tab[x][y] not in ("E", "S"):
+                self.lab.tab[x][y]="."
