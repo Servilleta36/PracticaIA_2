@@ -22,11 +22,11 @@ class Profundidad:
 
     def buscarVecino(self, f_actual, c_actual):
         direcciones = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        valido = []
+        valido=[]
 
         for i, j in direcciones:
-            f_siguiente = f_actual + i
-            c_siguiente = c_actual + j
+            f_siguiente=f_actual + i
+            c_siguiente=c_actual + j
 
             if self.lab.tab[f_siguiente][c_siguiente] in (" ", ".", "S"):
                 valido.append((f_siguiente, c_siguiente))
@@ -37,7 +37,7 @@ class Profundidad:
         self.visitados[self.posE_x][self.posE_y]=1
         iter=0
         while pila:
-            camino = False
+            camino=False
 
             if pila[-1]==(self.posS_x, self.posS_y): #El -1 indica la ultima posición de la pila, es decir la posicion de la meta
                 print ("Se ha encontrado la salida en "+str(iter)+" iteraciones")
@@ -52,6 +52,7 @@ class Profundidad:
                     self.visitados[i][j]=1
                     pila.append((i,j))
                     self.padres[i][j]=p_actual
+
                     camino=True
                     iter=iter+1
 
@@ -65,7 +66,8 @@ class Profundidad:
 
     def puntos(self):
         x, y = self.posS_x, self.posS_y
-        while (x, y)!=(self.posE_x, self.posE_y):
+        while (x,y)!=(self.posE_x, self.posE_y):
             if self.lab.tab[x][y] not in ("E", "S"):
                 self.lab.tab[x][y]="."
-            x, y=self.padres[x][y]
+            x,y=self.padres[x][y]
+

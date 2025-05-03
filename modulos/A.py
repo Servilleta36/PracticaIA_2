@@ -47,7 +47,7 @@ class A:
             else:
                 correcto=True
 
-    def buscarVecino(self, f_actual, c_actual):
+    def buscarVecino(self, f_actual, c_actual): #busca los posibles caminos y los guarda en validos
         direcciones=[(-1,0),(1,0),(0,-1),(0,1)]
         valido=[]
 
@@ -87,13 +87,13 @@ class A:
                 self.puntos()
                 return
 
-            confirmados=self.buscarVecino(a_x,a_y)
+            confirmados=self.buscarVecino(a_x,a_y) #guardamos en confirmados los caminos validos teniendo en cuenta la posicion actual
             n_heu=0
 
             for i,j in confirmados:
                 n_g=g+1
 
-                if self.heuristica=="1":
+                if self.heuristica=="1": #usamos una heuristica u otra dependiendo de lo que elijamos
                     n_heu=self.Manhattan(i, j, self.posS_x, self.posS_y)
 
                 elif self.heuristica=="2":
@@ -104,7 +104,7 @@ class A:
 
                 n_f=n_g+n_heu
 
-                if n_g<self.costeAcumulado[i][j]:
+                if n_g<self.costeAcumulado[i][j]: #comparamos y vemos si g es menor que el coste acumulado, lo contamos como parte del camino final
                     self.costeAcumulado[i][j]=n_g
                     self.padres[i][j]=(a_x,a_y)
                     cola.put((n_f,n_g,n_heu, i, j))

@@ -2,23 +2,23 @@ import random
 
 class Laberinto:
     def __init__(self):
-        self.x=random.randint(5,20)
-        self.y=random.randint(10,20)
-        self.tab=[[" "for _ in range(self.y)]for _ in range(self.x)] #Crea una tabla con dimensiones aleatorias (por cada columna crea una fila)
+        self.x=15#random.randint(5,20)
+        self.y=15#random.randint(10,20)
+        self.tab=[[" "for _ in range(self.y)]for _ in range(self.x)]
 
     def CreaMuro (self):
         i=0
 
         for i in range (self.x):
             self.tab[i][0]="#"
-            self.tab[i][self.y-1]="#" #Sin el -1 NO funciona (queda fuera de rango)
+            self.tab[i][self.y-1]="#"
 
         for i in range (self.y):
             self.tab[0][i]="#"
             self.tab[self.x-1][i]="#"
 
     def CreaES(self):
-        self.tab[random.randint(1,self.x-2)][1]="E" #-2 porque le quitamos las posiciones de ambos muros
+        self.tab[random.randint(1,self.x-2)][1]="E"
         self.tab[random.randint(1,self.x-2)][self.y-2]="S"
 
     def CreaObstaculo(self):
@@ -48,8 +48,8 @@ class Laberinto:
 
         for i in range(self.x):
             for j in range(self.y):
-                print(self.tab[i][j],end=" ") #Para que no lo ponga todo en una linea
-            print("") #Para que haga bien los saltos de linea
+                print(self.tab[i][j],end=" ")
+            print("")
 
     def GuardaLab(self):
         f=open("Laberinto.txt","w")
