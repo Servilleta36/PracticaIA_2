@@ -7,6 +7,14 @@ from B_Anchura import Anchura
 from B_Prof_Bid import Bidireccional
 from B_Prof_Iter import Iterativa
 from B_Prof_Lim import Limite
+import time
+
+def MedirTiempo(algoritmo):
+    inicio=time.time_ns()
+    algoritmo.moverse()
+    final=time.time_ns()
+    duracion=(final-inicio)//1000
+    print("Tiempo de ejecución: "+str(duracion)+ " ns")
 
 
 def main():
@@ -52,42 +60,42 @@ def main():
 
        if opc=="1":
            a=A(lab)
-           a.moverse()
+           MedirTiempo(a)
            lab.MuestraLab()
 
        if opc=="2":
            ida=IDA(lab)
-           ida.moverse()
+           MedirTiempo(ida)
            lab.MuestraLab()
 
        if opc=="3":
            gbfs=GBFS(lab)
-           gbfs.moverse()
+           MedirTiempo(gbfs)
            lab.MuestraLab()
 
        if opc == "4":
            anchura=Anchura(lab)
-           anchura.moverse()
+           MedirTiempo(anchura)
            lab.MuestraLab()
 
        if opc=="5":
            profundidad=Profundidad(lab)
-           profundidad.moverse()
+           MedirTiempo(profundidad)
            lab.MuestraLab()
 
        if opc == "6":
            bidireccional=Bidireccional(lab)
-           bidireccional.moverse()
+           MedirTiempo(bidireccional)
            lab.MuestraLab()
 
        if opc == "7":
            iterativa=Iterativa(lab)
-           iterativa.moverse()
+           MedirTiempo(iterativa)
            lab.MuestraLab()
 
        if opc == "8":
            limite=Limite(lab)
-           limite.moverse()
+           MedirTiempo(limite)
            lab.MuestraLab()
 
        if opc=="9":

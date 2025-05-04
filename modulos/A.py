@@ -91,12 +91,18 @@ class A:
 
         cola=PriorityQueue()
         cola.put((f,g,heu, self.posE_x,self.posE_y))
-        iter=0
+        cont_max=1
         while not cola.empty():
             f,g,heu,a_x,a_y=cola.get()
 
+            if cola.qsize()>cont_max:
+                cont_max=cola.qsize()
+
             if (a_x,a_y)==(self.posS_x,self.posS_y):
-                print ("Se ha encontrado la salida en "+str(iter)+" iteraciones")
+                print ("Solución encontrada usando algoritmo A*")
+                self.camino()
+                print ("Nodos expandidos: "+str(self.nodos()))
+                print ("Número máximo en estructura de datos COLA: "+str(cont_max))
                 self.puntos()
                 return
 
@@ -121,7 +127,6 @@ class A:
                     self.costeAcumulado[i][j]=n_g
                     self.padres[i][j]=(a_x,a_y)
                     cola.put((n_f,n_g,n_heu, i, j))
-            iter=iter+1
 
     def puntos(self):
         x,y=self.posS_x, self.posS_y
@@ -129,4 +134,25 @@ class A:
             if self.lab.tab[x][y] not in ("E", "S"):
                 self.lab.tab[x][y]="."
             x,y=self.padres[x][y]
+
+    def camino(self):
+        print("Camino recorrido (x,y): ")
+
+        for i in range (len(self.padres)):
+            for j in range (len(self.padres[0])):
+                if self.padres[i][j] is not None:
+                    print ("[",i,",",j,"],", end=" ")
+        print()
+
+    def nodos(self):
+        cont=0
+
+        for i in range (len(self.costeAcumulado)):
+            for j in range (len(self.costeAcumulado[0])):
+                if self.costeAcumulado[i][j]!=100:
+                    cont=cont+1
+        return cont
+
+
+
 

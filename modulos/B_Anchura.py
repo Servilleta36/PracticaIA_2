@@ -37,26 +37,36 @@ class Anchura:
 
     def moverse(self):
         cola=deque() #para trabajar con colas FIFO
-        cola.append((self.posE_x, self.posE_y))
+        cola.append((self.posE_x, self.posE_y),0)
         self.visitados[self.posE_x][self.posE_y]=1
-        iter = 0
+        cont_max=1
+        prof_max=0
 
         while cola:
-            p_actual=cola.popleft() #popleft para desencolar
+            p_actual,prof=cola.popleft() #popleft para desencolar con deque
+
+            if len(cola) > cont_max:
+                cont_max = len(cola)
+
+            if prof>prof_max:
+                prof_max=prof
+
             if p_actual==(self.posS_x, self.posS_y):
-                print("Se ha encontrado la salida en "+str(iter)+" iteraciones")
+                print("Solución encontrada usando el algoritmo de busqueda en anchura")
+                self.camino()
+                print("Nodos expandidos: "+str(self.nodos()))
+                print("Número máximo en estructura de datos COLA: " + str(cont_max))
+                print("Profundidad máxima alcanzada: "+str(prof_max))
                 self.puntos()
-                return
+                break
 
             validos=self.buscarVecino(p_actual[0], p_actual[1])
 
             for i, j in validos:  # comprueba si hay caminos validos y los almacena
                 if self.visitados[i][j]==0:
                     self.visitados[i][j]=1
-                    cola.append((i,j))
+                    cola.append((i,j),prof+1)
                     self.padres[i][j]=p_actual
-                    iter=iter+1
-
 
         print("No se ha encontrado el camino")
         self.puntos()
@@ -67,3 +77,22 @@ class Anchura:
             if self.lab.tab[x][y] not in ("E", "S"):
                 self.lab.tab[x][y]="."
             x,y=self.padres[x][y]
+    
+    def camino(self):
+        print("Camino recorrido (x,y): ")
+
+        for i in range (len(self.padres)):
+            for j in range (len(self.padres[0])):
+                if self.padres[i][j] is not None:
+                    print ("[",i,",",j,"],", end=" ")
+        print()
+
+    def nodos(self):
+        cont=0
+
+        for i in range (len(self.visitados)):
+            for j in range (len(self.visitados[0])):
+                if self.visitados[i][j]!=100:
+                    cont=cont+1
+        return cont
+

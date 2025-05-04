@@ -35,22 +35,28 @@ class Iterativa:
     def moverse(self):
         profundidad_maxima=len(self.lab.tab) * len(self.lab.tab[0])  # Para ver cual es el límite de la tabla y no pasarnos
         lim=0
+        cont_max=1
 
         while lim<profundidad_maxima: #cada vez que salimos del bucle, empezamos en E
             self.visitados = [[0 for _ in range(len(self.lab.tab[0]))] for _ in range(len(self.lab.tab))]
             self.padres = [[None for _ in range(len(self.lab.tab[0]))] for _ in range(len(self.lab.tab))]
             pila=[(self.posE_x,self.posE_y,0)]
             self.visitados[self.posE_x][self.posE_y]=1
-            iter=0
 
             while pila:
+                x, y, prof = pila.pop()  # saca la ultima posición de la pila
 
-                if pila[-1]==(self.posS_x, self.posS_y): #El -1 indica la ultima posición de la pila, es decir la posicion de la meta
-                    print ("Se ha encontrado la salida en "+str(iter)+" iteraciones")
+                if len(pila) > cont_max:
+                    cont_max = len(pila)
+
+                if (x,y)==(self.posS_x, self.posS_y):
+                    print("Solución encontrada usando el algoritmo de busqueda en profundidad iterativa")
+                    self.camino()
+                    print("Nodos expandidos: " + str(self.nodos()))
+                    print("Número máximo en estructura de datos PILA: " + str(cont_max))
+                    print("Profundidad máxima alcanzada: " + str(prof))
                     self.puntos()
-                    return
-
-                x,y,prof=pila.pop() #saca la ultima posición de la pila
+                    break
 
                 validos=self.buscarVecino(x, y)
 
@@ -60,7 +66,6 @@ class Iterativa:
                             self.visitados[i][j]=1
                             self.padres[i][j]=(x,y)
                             pila.append((i,j,prof+1))
-                            iter=iter+1
 
             lim=lim+1 #si ya no hay nada en la pila y profundidad es mayor que limite, se llega aquí y se repite el bucle de nuevo
 
@@ -70,11 +75,27 @@ class Iterativa:
         x,y=self.posS_x, self.posS_y
         while (x,y)!=(self.posE_x, self.posE_y):
             if self.padres[x][y]==None:
-                print ("No se ha encontrado el camino")
                 return
 
             if self.lab.tab[x][y] not in ("E", "S"):
                 self.lab.tab[x][y] = "*"
             x,y=self.padres[x][y]
 
+    def camino(self):
+        print("Camino recorrido (x,y): ")
+
+        for i in range (len(self.padres)):
+            for j in range (len(self.padres[0])):
+                if self.padres[i][j] is not None:
+                    print ("[",i,",",j,"],", end=" ")
+        print()
+
+    def nodos(self):
+        cont=0
+
+        for i in range (len(self.visitados)):
+            for j in range (len(self.visitados[0])):
+                if self.visitados[i][j]!=100:
+                    cont=cont+1
+        return cont
 

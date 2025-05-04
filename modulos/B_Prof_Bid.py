@@ -40,14 +40,21 @@ class Bidireccional:
         pila2=[(self.posS_x, self.posS_y)]
         self.visitados[self.posE_x][self.posE_y]=1
         self.visitados2[self.posS_x][self.posS_y]=1
-        iter = 0
         encontrado=False
+        cont_max=1
+
 
         while pila and pila2 and encontrado==False:
             camino=False
             camino2=False
             p_actual=pila[-1]
             p_actual2=pila2[-1]
+
+            if len(pila)>cont_max:
+                cont_max = len(pila)
+
+            elif len(pila2)>cont_max:
+                cont_max = len(pila2)
 
             validos=self.buscarVecino(p_actual[0],p_actual[1])
             validos2=self.buscarVecino(p_actual2[0],p_actual2[1])
@@ -64,7 +71,6 @@ class Bidireccional:
                     self.padres[i][j]=p_actual
 
                     camino=True
-                    iter=iter + 1
 
             for i, j in validos2:  # comprueba si hay caminos validos y los almacena, sino se quita de la pila
                 if self.visitados[i][j]==1:
@@ -79,23 +85,23 @@ class Bidireccional:
                     self.padres2[i][j]=p_actual2
 
                     camino2=True
-                    iter=iter+1
 
             if not camino:
                 pila.pop()
-                iter=iter-1
 
             if not camino2:
                 pila2.pop()
-                iter=iter-1
 
         if encontrado==True:
-            print("Se ha encontrado la salida en "+str(iter)+" iteraciones")
+            print("Solución encontrada usando el algoritmo de busqueda en profundidad bidireccional")
+            self.camino()
+            print("Nodos expandidos: "+str(self.nodos()))
+            print("Número máximo en estructura de datos PILA: " + str(cont_max))
             self.puntos()
 
     def puntos(self):
         if self.punto_encuentro is None:
-            print("No se puede reconstruir el camino: no hay punto de encuentro.")
+            print("No se ha encontrado la salida")
             return
 
         # Camino desde el punto de encuentro hasta la entrada (E)
@@ -104,7 +110,7 @@ class Bidireccional:
             if self.padres[x][y] is None:
                 break
             if self.lab.tab[x][y] not in ("E", "S"):
-                self.lab.tab[x][y] = "*"
+                self.lab.tab[x][y] = "."
             x, y = self.padres[x][y]
 
         # Camino desde el punto de encuentro hasta la salida (S)
@@ -113,9 +119,36 @@ class Bidireccional:
             if self.padres2[x][y] is None:
                 break
             if self.lab.tab[x][y] not in ("E", "S"):
-                self.lab.tab[x][y] = "*"
+                self.lab.tab[x][y] = "."
             x, y = self.padres2[x][y]
 
+    def camino(self):
+        print("Camino recorrido (x,y): ")
+
+        for i in range(len(self.padres)):
+            for j in range(len(self.padres[0])):
+                if self.padres[i][j] is not None:
+                    print("[", i, ",", j, "],", end=" ")
+
+        for i in range(len(self.padres2)):
+            for j in range(len(self.padres2[0])):
+                if self.padres2[i][j] is not None:
+                    print("[", i, ",", j, "],", end=" ")
+        print()
+
+    def nodos(self):
+        cont=0
+
+        for i in range(len(self.visitados)):
+            for j in range(len(self.visitados[0])):
+                if self.visitados[i][j] != 100:
+                    cont=cont+1
+
+        for i in range(len(self.visitados2)):
+            for j in range(len(self.visitados2[0])):
+                if self.visitados2[i][j]!=100:
+                    cont=cont+1
+        return cont
 
 
 

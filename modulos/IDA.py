@@ -7,6 +7,7 @@ class IDA:
         self.posS_y = 0
         self.padres=[[None for _ in range(len(self.lab.tab[0]))] for _ in range(len(self.lab.tab))]
         self.heuristica=0
+        self.visitados = [[0 for _ in range(len(self.lab.tab[0]))] for _ in range(len(self.lab.tab))]
 
         for i in range (len(self.lab.tab)): #coordenadas de la entrada
             for j in range (len(self.lab.tab[i])):
@@ -73,6 +74,7 @@ class IDA:
         self.SeleccionaHeuristica()
         max=0
         g=0
+        
         if self.heuristica=="1":
             max=self.Manhattan(self.posE_x, self.posE_y, self.posS_x, self.posS_y)
 
@@ -87,7 +89,9 @@ class IDA:
             resultado=self.IDA(self.posE_x, self.posE_y, g, max, self.posS_x, self.posS_y, [(self.posE_x, self.posE_y)])
 
             if resultado=="Salida":
-                print("El agente ha encontrado la salida en ",max)
+                print("Solución encontrada usando el algoritmo IDA*")
+                self.camino()
+                print("Nodos expandidos: " + str(self.nodos()))
                 self.puntos()
                 break
             elif resultado==float("inf"):
@@ -98,7 +102,7 @@ class IDA:
 
 
 
-    def IDA(self, x_actual, y_actual, g, max, posS_x, posS_y, visitados):
+    def IDA(self, x_actual, y_actual, g, max, posS_x, posS_y, visitado):
         h=0
         if self.heuristica=="1":
             h=self.Manhattan(x_actual, y_actual, self.posS_x, self.posS_y)
@@ -121,18 +125,19 @@ class IDA:
 
         for i,j in validos:
             siguientes=(i,j)
-            if siguientes not in visitados:
-                visitados.append(siguientes)
+            if siguientes not in visitado:
+                visitado.append(siguientes)
                 self.padres[i][j] = (x_actual, y_actual)
+                self.visitados[i][j]=1
 
-                resultado=self.IDA(i, j, g+1, max, self.posS_x, self.posS_y, visitados)
+                resultado=self.IDA(i, j, g+1, max, self.posS_x, self.posS_y, visitado)
 
                 if resultado=="Salida":
                     return "Salida"
                 if resultado<min:
                     min=resultado
 
-                visitados.remove(siguientes)
+                visitado.remove(siguientes)
         return min
 
     def puntos(self):
@@ -143,3 +148,21 @@ class IDA:
                 self.lab.tab[x][y] = "."
             if (x, y) == (self.posE_x, self.posE_y):
                 break
+
+    def camino(self):
+        print("Camino recorrido (x,y): ")
+
+        for i in range(len(self.padres)):
+            for j in range(len(self.padres[0])):
+                if self.padres[i][j] is not None:
+                    print("[", i, ",", j, "],", end=" ")
+        print()
+
+    def nodos(self):
+        cont = 0
+
+        for i in range(len(self.visitados)):
+            for j in range(len(self.visitados[0])):
+                if self.visitados[i][j] != 100:
+                    cont = cont + 1
+        return cont
