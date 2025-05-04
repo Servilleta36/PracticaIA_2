@@ -43,7 +43,7 @@ class Bidireccional:
         iter = 0
         encontrado=False
 
-        while pila and encontrado==False:
+        while pila and pila2 and encontrado==False:
             camino=False
             camino2=False
             p_actual=pila[-1]
@@ -70,6 +70,7 @@ class Bidireccional:
                 if self.visitados[i][j]==1:
                     encontrado=True
                     self.punto_encuentro=(i, j)
+                    self.padres2[i][j]=p_actual2
                     break
 
                 if self.visitados2[i][j]==0:
@@ -106,9 +107,9 @@ class Bidireccional:
                 self.lab.tab[x][y] = "*"
             x, y = self.padres[x][y]
 
-        # Camino desde S hacia el punto de encuentro usando padres2 (¡comenzamos en S!)
-        x, y = self.posS_x, self.posS_y
-        while (x, y) != self.punto_encuentro:
+        # Camino desde el punto de encuentro hasta la salida (S)
+        x, y = self.punto_encuentro
+        while (x, y) != (self.posS_x, self.posS_y):
             if self.padres2[x][y] is None:
                 break
             if self.lab.tab[x][y] not in ("E", "S"):

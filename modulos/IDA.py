@@ -27,7 +27,20 @@ class IDA:
         return abs(posS_x-f_actual)**2 + abs(posS_y-c_actual)**2
 
     def Personal(self, f_actual, c_actual, posS_x, posS_y):
-        return
+        Man = abs(f_actual - posS_x) + abs(c_actual - posS_y)
+        direcciones = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        penalizacion = 0
+
+        for i, j in direcciones:
+            nx, ny = posS_x + i, posS_y + j
+
+            if not (0 <= nx < len(self.lab.tab) and 0 <= ny < len(self.lab.tab[0])):
+                penalizacion = penalizacion + 1
+
+            elif self.lab.tab[nx][ny] == "#":
+                penalizacion = penalizacion + 1
+
+        return Man + 0.5 * penalizacion
 
     def SeleccionaHeuristica(self):
         correcto=False

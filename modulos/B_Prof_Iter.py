@@ -62,9 +62,6 @@ class Iterativa:
                             pila.append((i,j,prof+1))
                             iter=iter+1
 
-                            if self.lab.tab[i][j]==" ":
-                                self.lab.tab[i][j]="."
-
             lim=lim+1 #si ya no hay nada en la pila y profundidad es mayor que limite, se llega aquí y se repite el bucle de nuevo
 
         self.puntos()

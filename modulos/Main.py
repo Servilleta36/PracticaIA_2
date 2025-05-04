@@ -13,27 +13,27 @@ def main():
     lab=Laberinto()
 
     print("----------LABERINTOS----------")
-    print("1. Cargar laberinto aleatorio")
-    print("2. Cargar Maze1.txt")
-    print("3. Cargar Maze2.txt")
-    print("4. Cargar Maze3.txt")
+    print("1. Cargar Maze1.txt")
+    print("2. Cargar Maze2.txt")
+    print("3. Cargar Maze3.txt")
+    print("4. Cargar laberinto aleatorio")
     opc_lab=input("Elige una opcion: ")
 
     if opc_lab=="1":
-        lab.CreaLab()
-        lab.GuardaLab()
-        lab.MuestraLab()
-
-    elif opc_lab=="2":
         lab.CargaLab("Maze1.txt")
         lab.MuestraLab()
 
-    elif opc_lab=="3":
+    elif opc_lab=="2":
         lab.CargaLab("Maze2.txt")
         lab.MuestraLab()
 
-    elif opc_lab=="4":
+    elif opc_lab=="3":
         lab.CargaLab("Maze3.txt")
+        lab.MuestraLab()
+
+    elif opc_lab=="4":
+        lab.CreaLab()
+        lab.GuardaLab()
         lab.MuestraLab()
 
     while True:
