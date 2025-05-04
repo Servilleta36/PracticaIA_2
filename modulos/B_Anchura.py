@@ -37,7 +37,7 @@ class Anchura:
 
     def moverse(self):
         cola=deque() #para trabajar con colas FIFO
-        cola.append((self.posE_x, self.posE_y),0)
+        cola.append(((self.posE_x, self.posE_y),0))#se mete en la pila las dos coordenadas como un elemento y el 0
         self.visitados[self.posE_x][self.posE_y]=1
         cont_max=1
         prof_max=0
@@ -65,7 +65,7 @@ class Anchura:
             for i, j in validos:  # comprueba si hay caminos validos y los almacena
                 if self.visitados[i][j]==0:
                     self.visitados[i][j]=1
-                    cola.append((i,j),prof+1)
+                    cola.append(((i,j),prof+1))
                     self.padres[i][j]=p_actual
 
         print("No se ha encontrado el camino")
